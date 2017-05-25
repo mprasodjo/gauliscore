@@ -1,0 +1,2 @@
+# gauliscore
+Learndash custom Scoreboard

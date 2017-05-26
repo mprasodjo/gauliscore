@@ -44,7 +44,7 @@ function get_all_quiz($courseid,$limit) {
     }
 
     $query="select name, sum(totalpoints) as totalpoints from (SELECT a.name,points as totalpoints from gaulinet.wp_wp_pro_quiz_toplist as a  WHERE  result>='100' AND ($quiz_pro_id) group by quiz_id,name) as b group by name ORDER by totalpoints DESC $query_limit";
-    print $query;
+    //print $query;
     $total=$wpdb->get_results($query, OBJECT);
 
   return $total;

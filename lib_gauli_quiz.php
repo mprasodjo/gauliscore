@@ -1,14 +1,14 @@
 <?php
 
-function print_quiz_result($quizname,$userlist) {
+function print_quiz_result($quizname,$userlist,$title) {
 ?>
 
 <div class="entry-content">
 
 <div style="margin-bottom: 30px; margin-top: 10px;" class="wpProQuiz_toplist" data-quiz_id="13">
-	<h2>Leaderboard: <?php print "$quizname"; ?>
+	<h2> <?php print "$quizname"; ?>
 	<table class="wpProQuiz_toplistTable">
-	<caption>maximum of <span class="wpProQuiz_max_points">10</span> points</caption>
+	<!-- <caption>maximum of <span class="wpProQuiz_max_points">10</span> points</caption> -->
 	<thead>
 	    <tr>
 		<th style="width: 40px;">Pos.</th>

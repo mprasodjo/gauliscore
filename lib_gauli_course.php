@@ -52,15 +52,15 @@ function get_all_quiz($courseid,$limit) {
 }
 
 
-function print_course_result($coursename,$user_total) {
+function print_course_result($coursename,$user_total,$title) {
 ?>
 
 <div class="entry-content">
 
 <div style="margin-bottom: 30px; margin-top: 10px;" class="wpProQuiz_toplist" data-quiz_id="13">
-    <h2>Leaderboard: <?php print "$coursename"; ?>
+    <h2><?php print "Top Score of $coursename"; ?>
     <table class="wpProQuiz_toplistTable">
-    <caption>maximum of <span class="wpProQuiz_max_points">10</span> points</caption>
+<!--    <caption>maximum of <span class="wpProQuiz_max_points"></span> points</caption> -->
     <thead>
         <tr>
 	<th style="width: 40px;">Pos.</th>

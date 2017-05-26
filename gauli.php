@@ -38,21 +38,21 @@ function gaulicourse_shortcode($atts = [], $content = null, $tag = '')
     $gauli_atts = shortcode_atts([
                                      'id' => '0',
                                      'limit' => '0',
+                                     'title' => 'Top Score',
                                  ], $atts, $tag);
  
 
     $id=$gauli_atts['id'];
     $limit=$gauli_atts['limit'];
-    //print "<br>kambing <br>";
+    $title=$gauli_atts['title'];
+
     $coursename=get_course_name("$id");
-    print $coursename;
-    //print "<br>kambing <br>";
 
     //print $limit;
     $totalquiz=get_all_quiz("$id","$limit");
 
     //var_dump($totalquiz);
-    print_course_result($coursename,$totalquiz);
+    print_course_result($coursename,$totalquiz,$title);
 }
 
 
@@ -64,6 +64,7 @@ function gauliquiz_shortcode($atts = [], $content = null, $tag = '')
     // override default attributes with user attributes
     $gauli_atts = shortcode_atts([
                                      'id' => '0',
+                                     'title' => 'Top Score',
                                  ], $atts, $tag);
  
 
@@ -75,12 +76,12 @@ function gauliquiz_shortcode($atts = [], $content = null, $tag = '')
 
     //print_r($userlist);
 
-   print_quiz_result($quizname,$userlist);
+   print_quiz_result($quizname,$userlist,$title);
 
 
-  global $wp_query; 
-  $postid = $wp_query->post->ID; 
-  $data=get_post_meta('52', '_sfwd-quiz', true);
+  //global $wp_query; 
+  //$postid = $wp_query->post->ID; 
+  //$data=get_post_meta('52', '_sfwd-quiz', true);
   //var_dump($data);
 
   //print $data['sfwd-quiz_course'];

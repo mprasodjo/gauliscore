@@ -1,27 +1,4 @@
 <?php
-/**
-* Plugin Name: GauliScore
-* Plugin URI: https://gauli.com/
-* Description: Leaderboard for Learndash
-* Version: 1.0
-* Author: M. Prasodjo
-* Author URI: https://gauli.com/
-* License: A "Slug" license name e.g. GPL12
-*/
-
-
-//couse
-//SELECT * FROM wp_posts WHERE post_type = 'sfwd-courses' AND post_status NOT IN ( 'trash','auto-draft','inherit' );
-
-//leason
-//SELECT * FROM wp_posts WHERE post_type = 'sfwd-lessons' AND post_status NOT IN ( 'trash','auto-draft','inherit' );
-
-//quiz
-//select * from wp_wp_pro_quiz_master;
-
-//quiz data
-//SELECT post_id, meta_key, meta_value FROM wp_postmeta WHERE post_id IN (52) ORDER BY meta_id ASC;
-
 
 function get_course_name($courseid) {
   global $wpdb;
@@ -29,7 +6,7 @@ function get_course_name($courseid) {
   return $wpdb->get_var($query_course);
 }
 
-function get_all_quiz($courseid) {
+function get_all_quiz($courseid,$limit) {
   global $wpdb;
 
   //find quiz list first step
@@ -41,9 +18,6 @@ function get_all_quiz($courseid) {
   $control=0;
 
   foreach($list_quiz as $key) {
-    //print "<br>KAMBING</br>";
-    //print "#1 " . $key->post_id . "<br>";
-    //print "<br>KAMBING</br>";
 
     //find quiz list second step
     $query="SELECT post_id, meta_key, meta_value FROM wp_postmeta WHERE post_id IN ($key->post_id) AND meta_key='quiz_pro_id' ORDER BY meta_id ASC;";
@@ -51,10 +25,6 @@ function get_all_quiz($courseid) {
 
     foreach($list_quiz_id as $key_quiz) {
      if($key_quiz->meta_value) {
-        //print "ada <br>";
-        //print "#1 " . $key->post_id . "<br>";
-        //print "#2 post_id : " . $key_quiz->post_id . "<br>";
-        //print "#2 meta_value : " . $key_quiz->meta_value . "<br>";
 
         if($control == '0') {
           $quiz_pro_id=$quiz_pro_id . "quiz_id='$key_quiz->meta_value'";
@@ -66,18 +36,16 @@ function get_all_quiz($courseid) {
     }
   }
 
-  //print $quiz_pro_id;
 
-    $query="select DISTINCT quiz_id, name, SUM(DISTINCT points) as totalpoints from wp_wp_pro_quiz_toplist WHERE result>='80' AND ($quiz_pro_id) GROUP BY name ORDER by totalpoints DESC LIMIT 10";
-    $query="select name, sum(totalpoints) as totalpoints from (SELECT a.name,points as totalpoints from gaulinet.wp_wp_pro_quiz_toplist as a  WHERE  result>='100' AND ($quiz_pro_id) group by quiz_id,name) as b group by name ORDER by totalpoints DESC ";
-    //print $query;
-    $total=$wpdb->get_results($query, OBJECT);
-/*
-    foreach($total as $key_total) {
-      print $key_total->name . " : ";
-      print $key_total->totalpoints . "<br>";
+    if($limit=='0') {
+      $query_limit = "";
+    } else {
+      $query_limit = "LIMIT $limit";
     }
-*/
+
+    $query="select name, sum(totalpoints) as totalpoints from (SELECT a.name,points as totalpoints from gaulinet.wp_wp_pro_quiz_toplist as a  WHERE  result>='100' AND ($quiz_pro_id) group by quiz_id,name) as b group by name ORDER by totalpoints DESC $query_limit";
+    print $query;
+    $total=$wpdb->get_results($query, OBJECT);
 
   return $total;
 

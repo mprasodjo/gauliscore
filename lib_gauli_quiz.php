@@ -1,13 +1,4 @@
 <?php
-/**
-* Plugin Name: GauliScore
-* Plugin URI: https://gauli.com/
-* Description: Leaderboard for Learndash
-* Version: 1.0
-* Author: M. Prasodjo
-* Author URI: https://gauli.com/
-* License: A "Slug" license name e.g. GPL12
-*/
 
 function print_quiz_result($quizname,$userlist) {
 ?>
@@ -100,7 +91,6 @@ function gauli_shortcode($atts = [], $content = null, $tag = '')
 function get_quiz_name($id) {
   global $wpdb;
   $query = "SELECT name FROM wp_wp_pro_quiz_master WHERE id='$id' limit 1";
-  //print $query;
   return $wpdb->get_var($query);
 }
 
@@ -108,10 +98,7 @@ function get_userlist($quizid) {
   global $wpdb;
 
   $query="select toplist_data from wp_wp_pro_quiz_master where id='$quizid' limit 1";
-  //$query="select * from wp_wp_pro_quiz_master where id='$quizid'";
   $toplistDataShowLimit = $wpdb->get_results($query, OBJECT);
-
-  //var_dump($toplistDataShowLimit);
 
   foreach ($toplistDataShowLimit as $key) {
     $toplist_data=unserialize($key->toplist_data);
@@ -120,8 +107,6 @@ function get_userlist($quizid) {
   $toplistDataSort = $toplist_data['toplistDataSort'];
   $toplistDataShowIn = $toplist_data['toplistDataShowIn'];
   $toplistDataShowLimit= $toplist_data['toplistDataShowLimit'];
-
-  //print $toplistDataSort;
 
   if($toplistDataSort == '1') { // best user
     $sort_user = "ORDER by result ASC, date ASC";
@@ -148,8 +133,6 @@ function get_userlist($quizid) {
   $quiz_data=unserialize($quiz_data_meta);
 
   $min_result = $quiz_data['sfwd-quiz_passingpercentage'];
-
-  //var_dump($quiz_data);
 
   $query="SELECT DISTINCT user_id,name,points,date FROM wp_wp_pro_quiz_toplist WHERE quiz_id='$quizid' AND result>=$min_result GROUP by name $sort_user $limit_user";
   //print $query;

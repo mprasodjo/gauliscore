@@ -1,12 +1,14 @@
 <?php
 /**
-* Plugin Name: GauliScore
-* Plugin URI: https://gauli.com/
-* Description: Leaderboard for Learndash
-* Version: 1.0
-* Author: M. Prasodjo
-* Author URI: https://gauli.com/
-* License: A "Slug" license name e.g. GPL12
+ * Plugin Name: GauliScore
+ * Plugin URI: https://gauli.com/
+ * Description: Leaderboard for Learndash
+ * Version: 1.0
+ * Author: M. Prasodjo
+ * Author URI: https://gauli.com/
+ * License: GPL-2.0+
+ * License URI: http://www.gnu.org/licenses/gpl-2.0.txt
+
 */
 
   require_once dirname( __FILE__ ) . '/lib_gauli_quiz.php';
@@ -35,16 +37,19 @@ function gaulicourse_shortcode($atts = [], $content = null, $tag = '')
     // override default attributes with user attributes
     $gauli_atts = shortcode_atts([
                                      'id' => '0',
+                                     'limit' => '0',
                                  ], $atts, $tag);
  
 
     $id=$gauli_atts['id'];
+    $limit=$gauli_atts['limit'];
     //print "<br>kambing <br>";
     $coursename=get_course_name("$id");
     print $coursename;
     //print "<br>kambing <br>";
 
-    $totalquiz=get_all_quiz("$id");
+    //print $limit;
+    $totalquiz=get_all_quiz("$id","$limit");
 
     //var_dump($totalquiz);
     print_course_result($coursename,$totalquiz);

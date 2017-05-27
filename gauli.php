@@ -29,7 +29,7 @@
 
 
 
-function gaulicourse_shortcode($atts = [], $content = null, $tag = '')
+function gauli_Learndash_course_shortcode($atts = [], $content = null, $tag = '')
 {
     // normalize attribute keys, lowercase
     $atts = array_change_key_case((array)$atts, CASE_LOWER);
@@ -40,23 +40,24 @@ function gaulicourse_shortcode($atts = [], $content = null, $tag = '')
                                      'limit' => '0',
                                      'title' => 'Top Score',
                                  ], $atts, $tag);
- 
 
-    $id=$gauli_atts['id'];
-    $limit=$gauli_atts['limit'];
-    $title=$gauli_atts['title'];
 
-    $coursename=get_course_name("$id");
+    $id = $gauli_atts['id'];
+    $limit = $gauli_atts['limit'];
+    $title = $gauli_atts['title'];
+
+    $gc = new Gauli_Learndash_Get_Course(); 
+    $coursename = $gc->get_course_name("$id");
 
     //print $limit;
-    $totalquiz=get_all_quiz("$id","$limit");
+    $totalquiz = $gc->get_all_quiz("$id","$limit");
 
     //var_dump($totalquiz);
-    print_course_result($coursename,$totalquiz,$title);
+    $gc->print_course_result($coursename,$totalquiz,$title);
 }
 
 
-function gauliquiz_shortcode($atts = [], $content = null, $tag = '')
+function gauli_Learndash_quiz_shortcode($atts = [], $content = null, $tag = '')
 {
     // normalize attribute keys, lowercase
     $atts = array_change_key_case((array)$atts, CASE_LOWER);
@@ -68,34 +69,28 @@ function gauliquiz_shortcode($atts = [], $content = null, $tag = '')
                                  ], $atts, $tag);
  
 
-    $id=$gauli_atts['id'];
-    $quizname=get_quiz_name("$id");
+    $id = $gauli_atts['id'];
+
+    $gq = new Gauli_Learndash_Get_Quiz();
+
+    $quizname = $gq->get_quiz_name("$id");
     //print $quizname;
 
-    $userlist=get_userlist("$id");
+    $userlist = $gq->get_userlist("$id");
 
     //print_r($userlist);
 
-   print_quiz_result($quizname,$userlist,$title);
-
-
-  //global $wp_query; 
-  //$postid = $wp_query->post->ID; 
-  //$data=get_post_meta('52', '_sfwd-quiz', true);
-  //var_dump($data);
-
-  //print $data['sfwd-quiz_course'];
-  //print $data['sfwd-quiz_passingpercentage'];
+   $gq->print_quiz_result($quizname,$userlist,$title);
 
 }
 
-function gauli_shortcodes_init()
+function gauli_Learndash_shortcodes_init()
 {
-    add_shortcode('gauliscore', 'gaulicourse_shortcode');
-    add_shortcode('gauliquiz', 'gauliquiz_shortcode');
+    add_shortcode('gauliscore', 'gauli_Learndash_course_shortcode');
+    add_shortcode('gauliquiz', 'gauli_Learndash_quiz_shortcode');
 }
 
-add_action('init', 'gauli_shortcodes_init');
+add_action('init', 'gauli_Learndash_shortcodes_init');
 //add_action('init', 'gauliquiz_shortcodes_init');
 
 

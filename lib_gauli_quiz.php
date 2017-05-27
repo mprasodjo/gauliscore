@@ -1,5 +1,9 @@
 <?php
 
+
+Class Gauli_Learndash_Get_Quiz {
+
+
 function print_quiz_result($quizname,$userlist,$title) {
 ?>
 
@@ -42,7 +46,7 @@ foreach ($userlist as $key) {
 
 	<tr style="display: table-row;">
 		<td><?php print $pos; ?></td>
-		<td style="text-align: left ;"><?php print "<a href=/members/$key->name>$key->name</a>"; ?></td>
+		<td style="text-align: left ;"><?php print "$key->name"; ?></td>
 		<td style=" color: rgb(124, 124, 124); font-size: x-small;"><?php $dt = new DateTime("@$key->date"); print $dt->format('Y-m-d H:i:s');?></td>
 		<td><?php print $key->points; ?></td>
 <?php 
@@ -141,6 +145,7 @@ function get_userlist($quizid) {
   return $userlist;
 }
 
+}
 
 ?>
 

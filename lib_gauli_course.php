@@ -1,5 +1,7 @@
 <?php
 
+Class Gauli_Learndash_Get_Course {
+
 function get_course_name($courseid) {
   global $wpdb;
   $query_course = "SELECT post_title FROM wp_posts WHERE post_type = 'sfwd-courses' AND post_status NOT IN ( 'trash','auto-draft','inherit' ) AND ID='$courseid' LIMIT 1";
@@ -43,7 +45,7 @@ function get_all_quiz($courseid,$limit) {
       $query_limit = "LIMIT $limit";
     }
 
-    $query="select name, sum(totalpoints) as totalpoints from (SELECT a.name,points as totalpoints from gaulinet.wp_wp_pro_quiz_toplist as a  WHERE  result>='100' AND ($quiz_pro_id) group by quiz_id,name) as b group by name ORDER by totalpoints DESC $query_limit";
+    $query="select name, sum(totalpoints) as totalpoints from (SELECT a.name,points as totalpoints from gaulinet.wp_wp_pro_quiz_toplist as a  WHERE  result>='100' AND ($quiz_pro_id) group by quiz_id,name ORDER by date ASC) as b group by name ORDER by totalpoints DESC $query_limit";
     //print $query;
     $total=$wpdb->get_results($query, OBJECT);
 
@@ -93,7 +95,7 @@ foreach ($user_total as $key) {
 
     <tr style="display: table-row;">
 	<td><?php print $pos; ?> </td>
-	<td style="text-align: left ;"><?php print "<a href=/members/$key->name>$key->name</a>"; ?></td>
+	<td style="text-align: left ;"><?php print "$key->name"; ?></td>
 	<td><?php print $key->totalpoints; ?></td>
 <?php 
     $strip=0;
@@ -117,6 +119,7 @@ foreach ($user_total as $key) {
 <?php
 }
 
+}
 
 ?>
 

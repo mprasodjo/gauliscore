@@ -46,14 +46,17 @@ function gauli_Learndash_course_shortcode($atts = [], $content = null, $tag = ''
     $limit = $gauli_atts['limit'];
     $title = $gauli_atts['title'];
 
-    $gc = new Gauli_Learndash_Get_Course(); 
-    $coursename = $gc->get_course_name("$id");
+    if($id >= 1) {
 
-    //print $limit;
-    $totalquiz = $gc->get_all_quiz("$id","$limit");
+      $gc = new Gauli_Learndash_Get_Course(); 
+      $coursename = $gc->get_course_name("$id");
 
-    //var_dump($totalquiz);
-    $gc->print_course_result($coursename,$totalquiz,$title);
+      //print $limit;
+      $totalquiz = $gc->get_all_quiz("$id","$limit");
+
+      //var_dump($totalquiz);
+      $gc->print_course_result($coursename,$totalquiz,$title);
+    }
 }
 
 
@@ -61,27 +64,31 @@ function gauli_Learndash_quiz_shortcode($atts = [], $content = null, $tag = '')
 {
     // normalize attribute keys, lowercase
     $atts = array_change_key_case((array)$atts, CASE_LOWER);
- 
+
     // override default attributes with user attributes
     $gauli_atts = shortcode_atts([
-                                     'id' => '0',
+                                     'id' => '',
                                      'title' => 'Top Score',
                                  ], $atts, $tag);
- 
+
 
     $id = $gauli_atts['id'];
 
-    $gq = new Gauli_Learndash_Get_Quiz();
 
-    $quizname = $gq->get_quiz_name("$id");
-    //print $quizname;
+    if($id >= 1) {
 
-    $userlist = $gq->get_userlist("$id");
+      $gq = new Gauli_Learndash_Get_Quiz();
 
-    //print_r($userlist);
+      $quizname = $gq->get_quiz_name("$id");
+      //print $quizname;
 
-   $gq->print_quiz_result($quizname,$userlist,$title);
+      $userlist = $gq->get_userlist("$id");
 
+      //print_r($userlist);
+
+     $gq->print_quiz_result($quizname,$userlist,$title);
+
+   }
 }
 
 function gauli_Learndash_shortcodes_init()
